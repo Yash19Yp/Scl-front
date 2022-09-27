@@ -8,12 +8,21 @@ import "../styles.css";
 import DoneIcon from "../../assets/icons/done.svg";
 import CancelIcon from "../../assets/icons/cancel.svg";
 import RefundedIcon from "../../assets/icons/refunded.svg";
+import StudentModal from "../../Modals/Create_student";
 
 function Orders() {
   const [search, setSearch] = useState("");
   const [orders, setOrders] = useState(all_orders);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
+
+  const [isStudentModal, setStudentModal] = React.useState(false);
+  function handleOpenStudentModal() {
+    setStudentModal(true);
+  }
+  function handleCloseStudentModal() {
+    setStudentModal(false);
+  }
 
   useEffect(() => {
     setPagination(calculateRange(all_orders, 5));
@@ -44,11 +53,14 @@ function Orders() {
 
   return (
     <div className="dashboard-content">
-      <DashboardHeader btnText="New Order" />
+      <DashboardHeader
+        btnText="Create Student"
+        onClick={handleOpenStudentModal}
+      />
 
       <div className="dashboard-content-container">
         <div className="dashboard-content-header">
-          <h2>Orders List</h2>
+          <h2>Student List</h2>
           <div className="dashboard-content-search">
             <input
               type="text"
@@ -146,6 +158,13 @@ function Orders() {
           </div>
         )}
       </div>
+      {console.log("isStudentModal0", isStudentModal)}
+      {isStudentModal ? (
+        <StudentModal
+          isOpen={isStudentModal}
+          onRequestClose={handleCloseStudentModal}
+        />
+      ) : null}
     </div>
   );
 }
