@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DashboardHeader from "../../components/DashboardHeader";
 
-import all_orders from "../../constants/orders";
+import all_students from "../../constants/students";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 
 import "../styles.css";
@@ -10,9 +10,9 @@ import CancelIcon from "../../assets/icons/cancel.svg";
 import RefundedIcon from "../../assets/icons/refunded.svg";
 import StudentModal from "../../Modals/Create_student";
 
-function Orders() {
+function Students() {
   const [search, setSearch] = useState("");
-  const [orders, setOrders] = useState(all_orders);
+  const [Student, setStudents] = useState(all_students);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState([]);
 
@@ -25,21 +25,21 @@ function Orders() {
   }
 
   useEffect(() => {
-    setPagination(calculateRange(all_orders, 5));
-    setOrders(sliceData(all_orders, page, 5));
+    setPagination(calculateRange(all_students, 5));
+    setStudents(sliceData(all_students, page, 5));
   }, []);
 
   // Search
   const __handleSearch = (event) => {
     setSearch(event.target.value);
     if (event.target.value !== "") {
-      let search_results = orders.filter(
+      let search_results = Student.filter(
         (item) =>
           item.first_name.toLowerCase().includes(search.toLowerCase()) ||
           item.last_name.toLowerCase().includes(search.toLowerCase()) ||
           item.product.toLowerCase().includes(search.toLowerCase())
       );
-      setOrders(search_results);
+      setStudents(search_results);
     } else {
       __handleChangePage(1);
     }
@@ -48,7 +48,7 @@ function Orders() {
   // Change Page
   const __handleChangePage = (new_page) => {
     setPage(new_page);
-    setOrders(sliceData(all_orders, new_page, 5));
+    setStudents(sliceData(all_students, new_page, 5));
   };
 
   return (
@@ -82,57 +82,57 @@ function Orders() {
             <th>REVENUE</th>
           </thead>
 
-          {orders.length !== 0 ? (
+          {Student.length !== 0 ? (
             <tbody>
-              {orders.map((order, index) => (
+              {Student.map((student, index) => (
                 <tr key={index}>
                   <td>
-                    <span>{order.id}</span>
+                    <span>{student.id}</span>
                   </td>
                   <td>
-                    <span>{order.date}</span>
+                    <span>{student.date}</span>
                   </td>
                   <td>
                     <div>
-                      {order.status === "Paid" ? (
+                      {student.status === "Paid" ? (
                         <img
                           src={DoneIcon}
                           alt="paid-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order.status === "Canceled" ? (
+                      ) : student.status === "Canceled" ? (
                         <img
                           src={CancelIcon}
                           alt="canceled-icon"
                           className="dashboard-content-icon"
                         />
-                      ) : order.status === "Refunded" ? (
+                      ) : student.status === "Refunded" ? (
                         <img
                           src={RefundedIcon}
                           alt="refunded-icon"
                           className="dashboard-content-icon"
                         />
                       ) : null}
-                      <span>{order.status}</span>
+                      <span>{student.status}</span>
                     </div>
                   </td>
                   <td>
                     <div>
                       <img
-                        src={order.avatar}
+                        src={student.avatar}
                         className="dashboard-content-avatar"
-                        alt={order.first_name + " " + order.last_name}
+                        alt={student.first_name + " " + student.last_name}
                       />
                       <span>
-                        {order.first_name} {order.last_name}
+                        {student.first_name} {student.last_name}
                       </span>
                     </div>
                   </td>
                   <td>
-                    <span>{order.product}</span>
+                    <span>{student.product}</span>
                   </td>
                   <td>
-                    <span>${order.price}</span>
+                    <span>${student.price}</span>
                   </td>
                 </tr>
               ))}
@@ -140,7 +140,7 @@ function Orders() {
           ) : null}
         </table>
 
-        {orders.length !== 0 ? (
+        {Student.length !== 0 ? (
           <div className="dashboard-content-footer">
             {pagination.map((item, index) => (
               <span
@@ -169,4 +169,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default Students;
