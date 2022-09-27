@@ -35,9 +35,10 @@ function Students() {
     if (event.target.value !== "") {
       let search_results = Student.filter(
         (item) =>
-          item.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          item.product.toLowerCase().includes(search.toLowerCase())
+          item?.first_name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+          item?.middle_name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+          item?.last_name?.toLowerCase()?.includes(search?.toLowerCase()) ||
+          item?.product?.toLowerCase()?.includes(search?.toLowerCase())
       );
       setStudents(search_results);
     } else {
@@ -75,11 +76,12 @@ function Students() {
         <table>
           <thead>
             <th>ID</th>
-            <th>DATE</th>
-            <th>STATUS</th>
-            <th>COSTUMER</th>
-            <th>PRODUCT</th>
-            <th>REVENUE</th>
+            <th>NAME</th>
+            <th>BIRTH DATE</th>
+            <th>PARENT NAME</th>
+            <th>PARENT NUMBER</th>
+            <th>PARENT EMAIL</th>
+            <th>FEES STATUS</th>
           </thead>
 
           {Student.length !== 0 ? (
@@ -88,33 +90,6 @@ function Students() {
                 <tr key={index}>
                   <td>
                     <span>{student.id}</span>
-                  </td>
-                  <td>
-                    <span>{student.date}</span>
-                  </td>
-                  <td>
-                    <div>
-                      {student.status === "Paid" ? (
-                        <img
-                          src={DoneIcon}
-                          alt="paid-icon"
-                          className="dashboard-content-icon"
-                        />
-                      ) : student.status === "Canceled" ? (
-                        <img
-                          src={CancelIcon}
-                          alt="canceled-icon"
-                          className="dashboard-content-icon"
-                        />
-                      ) : student.status === "Refunded" ? (
-                        <img
-                          src={RefundedIcon}
-                          alt="refunded-icon"
-                          className="dashboard-content-icon"
-                        />
-                      ) : null}
-                      <span>{student.status}</span>
-                    </div>
                   </td>
                   <td>
                     <div>
@@ -129,10 +104,40 @@ function Students() {
                     </div>
                   </td>
                   <td>
-                    <span>{student.product}</span>
+                    <span>{student.birth_date}</span>
                   </td>
                   <td>
-                    <span>${student.price}</span>
+                    <span>{student.parent_name}</span>
+                  </td>
+                  <td>
+                    <span>{student.parent_number}</span>
+                  </td>
+                  <td>
+                    <span>{student.parent_email}</span>
+                  </td>
+                  <td>
+                    <div>
+                      {student.fees_status === "Paid" ? (
+                        <img
+                          src={DoneIcon}
+                          alt="paid-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : student.fees_status === "Canceled" ? (
+                        <img
+                          src={CancelIcon}
+                          alt="canceled-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : student.fees_status === "Refunded" ? (
+                        <img
+                          src={RefundedIcon}
+                          alt="refunded-icon"
+                          className="dashboard-content-icon"
+                        />
+                      ) : null}
+                      <span>{student.fees_status}</span>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -158,7 +163,6 @@ function Students() {
           </div>
         )}
       </div>
-      {console.log("isStudentModal0", isStudentModal)}
       {isStudentModal ? (
         <StudentModal
           isOpen={isStudentModal}
